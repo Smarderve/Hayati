@@ -1,0 +1,9 @@
+node_modules/
+.next/
+out/
+.vercel/
+qa/
+*.log
+.DS_Store
+public/audio/*.mp3
+!public/audio/README.md
