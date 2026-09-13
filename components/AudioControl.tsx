@@ -5,7 +5,8 @@ import { motion } from "motion/react";
 export function AudioControl({ playing, onToggle }: { playing: boolean; onToggle: () => void }) {
   return (
     <motion.button
-      className="sound-control"
+      className="sound-control magnetic"
+      data-magnetic
       type="button"
       onClick={onToggle}
       initial={{ opacity: 0 }}

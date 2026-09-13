@@ -6,6 +6,7 @@ import { useRef } from "react";
 import * as THREE from "three";
 import { experienceStore } from "@/lib/experience-store";
 import { smooth } from "@/lib/math";
+import { STORY } from "@/lib/narrative";
 
 export function MoonSystem() {
   const group = useRef<THREE.Group>(null);
@@ -17,9 +18,10 @@ export function MoonSystem() {
     if (!group.current || !moon.current) return;
     const p = experienceStore.progress;
     const portrait = viewport.aspect < 0.8;
-    const reveal = smooth(p, 0.015, 0.17);
-    const descent = smooth(p, 0.39, 0.58);
-    const finale = smooth(p, 0.84, 0.985);
+    const reveal = smooth(p, STORY.opening.focus, STORY.moon.focus);
+    const certainty = smooth(p, STORY.moon.focus, STORY.years.focus);
+    const descent = smooth(p, STORY.everything.focus, STORY.garden.focus);
+    const finale = smooth(p, STORY.return.in, STORY.final.focus);
 
     let scale = THREE.MathUtils.lerp(0.18, portrait ? 2.15 : 2.45, reveal);
     scale = THREE.MathUtils.lerp(scale, portrait ? 1.12 : 1.38, descent);
@@ -27,6 +29,8 @@ export function MoonSystem() {
 
     let x = THREE.MathUtils.lerp(portrait ? 1.15 : 2.1, portrait ? 0.72 : 1.65, reveal);
     let y = THREE.MathUtils.lerp(1.55, portrait ? 0.55 : 0.25, reveal);
+    x += Math.sin(certainty * Math.PI) * (portrait ? -0.16 : -0.28);
+    y += Math.sin(certainty * Math.PI) * 0.09;
     x = THREE.MathUtils.lerp(x, portrait ? 1.28 : 2.15, descent);
     y = THREE.MathUtils.lerp(y, portrait ? 1.58 : 1.12, descent);
     x = THREE.MathUtils.lerp(x, portrait ? 0.18 : 0.48, finale);
@@ -34,7 +38,8 @@ export function MoonSystem() {
 
     group.current.position.set(x, y, -0.35);
     group.current.scale.setScalar(scale);
-    moon.current.rotation.y += delta * (p > 0.86 ? 0.012 : 0.022);
+    const stillFinal = smooth(p, STORY.final.in, STORY.final.focus);
+    moon.current.rotation.y += delta * THREE.MathUtils.lerp(0.022, 0.004, stillFinal);
     moon.current.rotation.x = -0.04 + Math.sin(state.clock.elapsedTime * 0.08) * 0.008;
   });
 

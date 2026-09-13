@@ -54,12 +54,21 @@ button:focus-visible {
 .scene-canvas,
 .atmospheric-vignette,
 .film-grain,
-.final-heart-reflection {
+.final-heart-reflection,
+.letter-veil {
   position: fixed;
   inset: 0;
   width: 100%;
   height: 100dvh;
   pointer-events: none;
+}
+
+.letter-veil {
+  z-index: 4;
+  opacity: 0;
+  background:
+    linear-gradient(108deg, rgba(5, 4, 7, 0.96) 0%, rgba(10, 7, 12, 0.84) 46%, rgba(18, 11, 18, 0.54) 100%),
+    radial-gradient(circle at 18% 48%, rgba(123, 78, 99, 0.09), transparent 38%);
 }
 
 .scene-canvas {
@@ -194,7 +203,7 @@ button:focus-visible {
 .garden-beat { min-height: 108dvh; }
 .playful-beat { min-height: 100dvh; }
 .future-beat { min-height: 110dvh; }
-.future-details-beat { min-height: 125dvh; }
+.future-details-beat { min-height: auto; padding-top: 0; padding-bottom: 0; }
 .letter-beat { min-height: 112dvh; }
 .return-beat { min-height: 105dvh; }
 .final-beat { min-height: 170dvh; }
@@ -257,14 +266,42 @@ button:focus-visible {
 .everything-word {
   margin-top: 1.2rem;
   color: var(--ivory);
-  font-size: clamp(3.75rem, 17vw, 10.5rem);
+  font-size: clamp(3.5rem, 14vw, 8.8rem);
   font-style: italic;
   letter-spacing: -0.055em;
   line-height: 0.9;
 }
 
+.everything-word span {
+  display: inline-block;
+  transform-origin: right center;
+  will-change: transform, filter, letter-spacing;
+}
+
+.year-orbits {
+  position: absolute;
+  top: -8.5rem;
+  left: -4.8rem;
+  width: 13rem;
+  aspect-ratio: 1;
+  pointer-events: none;
+}
+
+.year-orbits i {
+  position: absolute;
+  inset: calc(var(--orbit-index, 0) * 1.15rem);
+  border: 1px solid rgba(218, 211, 219, 0.2);
+  border-top-color: transparent;
+  border-radius: 50%;
+}
+
+.year-orbits i:nth-child(1) { --orbit-index: 0; }
+.year-orbits i:nth-child(2) { --orbit-index: 1; }
+.year-orbits i:nth-child(3) { --orbit-index: 2; }
+.year-orbits i:nth-child(4) { --orbit-index: 3; }
+
 .everything-beat .medium-copy {
-  width: min(88vw, 42rem);
+  width: min(92vw, 50rem);
 }
 
 .playful-line {
@@ -307,6 +344,34 @@ button:focus-visible {
 .touch-orbit i:first-child { animation: orbit-one 4.8s ease-in-out infinite; }
 .touch-orbit i:last-child { background: #c7adca; animation: orbit-two 4.8s ease-in-out infinite; }
 
+.gesture-whisper {
+  position: absolute;
+  right: var(--page-gutter);
+  bottom: 14%;
+  max-width: 13rem;
+  margin: 0;
+  color: rgba(216, 216, 222, 0.24);
+  font-size: 0.54rem;
+  letter-spacing: 0.15em;
+  line-height: 1.55;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.hidden-hayati {
+  position: absolute;
+  right: 9%;
+  bottom: 10%;
+  opacity: 0;
+  color: rgba(217, 207, 216, 0.55);
+  font-family: var(--font-display), serif;
+  font-size: clamp(1rem, 4.5vw, 2.2rem);
+  font-style: italic;
+  letter-spacing: 0.28em;
+  text-shadow: 0 0 1.5rem rgba(213, 187, 203, 0.18);
+  transform: rotate(-8deg) skewX(-8deg);
+}
+
 @keyframes orbit-drift { 50% { transform: translateY(-0.6rem); } }
 @keyframes orbit-one { 0%,100% { transform: translate(-1.5rem, -.3rem); } 50% { transform: translate(.2rem, .5rem); } }
 @keyframes orbit-two { 0%,100% { transform: translate(1.4rem, .4rem); } 50% { transform: translate(-.1rem, -.3rem); } }
@@ -329,13 +394,16 @@ button:focus-visible {
 }
 
 .future-list {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(1.25rem, 5.5vw, 2.2rem);
+  width: min(87vw, 42rem);
+  margin-left: var(--page-gutter);
 }
 
 .future-list p {
+  position: absolute;
+  top: 42%;
+  width: 100%;
   margin: 0;
+  opacity: 0;
   color: rgba(240, 233, 220, 0.82);
   font-family: var(--font-display), serif;
   font-size: clamp(1.42rem, 6.2vw, 3.6rem);
@@ -343,8 +411,24 @@ button:focus-visible {
   line-height: 1.16;
 }
 
-.future-list p:nth-child(even) {
-  align-self: flex-end;
+.future-list small {
+  display: block;
+  margin-bottom: 0.34rem;
+  color: rgba(216, 216, 222, 0.28);
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.48rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.future-moment {
+  position: relative;
+  min-height: 92dvh;
+}
+
+.future-moment:nth-child(even) p {
+  margin-left: auto;
   max-width: 85%;
   color: rgba(216, 201, 210, 0.72);
   text-align: right;
@@ -369,6 +453,14 @@ button:focus-visible {
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
+}
+
+.letter-rule {
+  display: block;
+  width: 2.4rem;
+  height: 1px;
+  margin-bottom: 1.6rem;
+  background: linear-gradient(90deg, rgba(240, 233, 220, 0.52), transparent);
 }
 
 .final-copy {
@@ -398,6 +490,20 @@ button:focus-visible {
   font-size: clamp(0.7rem, 2.9vw, 0.9rem);
   letter-spacing: 0.09em;
 }
+
+.final-copy::before {
+  content: "";
+  position: absolute;
+  left: var(--page-gutter);
+  bottom: max(7.3vh, calc(env(safe-area-inset-bottom) + 2.15rem));
+  width: clamp(3rem, 11vw, 6rem);
+  height: 1px;
+  opacity: 0.22;
+  background: linear-gradient(90deg, var(--ivory), transparent);
+  animation: final-breathe 8s ease-in-out infinite;
+}
+
+@keyframes final-breathe { 50% { opacity: 0.42; transform: scaleX(1.14); } }
 
 .sound-control {
   position: fixed;
@@ -453,8 +559,36 @@ button:focus-visible {
 
 .moon-cursor.is-visible { opacity: 0.72; }
 
+.cursor-field {
+  position: fixed;
+  inset: 0;
+  z-index: 19;
+  pointer-events: none;
+}
+
+.cursor-trail {
+  position: fixed;
+  top: -0.12rem;
+  left: -0.12rem;
+  width: 0.24rem;
+  height: 0.24rem;
+  border-radius: 50%;
+  opacity: 0.16;
+  background: rgba(218, 210, 222, 0.52);
+  filter: blur(0.5px);
+  will-change: transform;
+}
+
+.cursor-trail:nth-child(2) { opacity: 0.095; }
+.cursor-trail:nth-child(3) { opacity: 0.045; }
+
+.magnetic {
+  translate: var(--magnetic-x, 0) var(--magnetic-y, 0);
+  transition: translate 220ms var(--ease-out-cinematic);
+}
+
 @media (pointer: coarse) {
-  .moon-cursor { display: none; }
+  .cursor-field { display: none; }
 }
 
 @media (min-width: 760px) {
@@ -464,6 +598,20 @@ button:focus-visible {
   .future-thread { top: 30%; left: 13%; width: 74%; }
   .final-copy { justify-content: center; padding-bottom: 0; }
   .touch-orbit { right: 28%; }
+  .year-orbits { top: -10rem; left: -7rem; width: 17rem; }
+  .gesture-whisper { bottom: 19%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .small-moon,
+  .touch-orbit,
+  .touch-orbit i,
+  .sound-wave.is-playing i,
+  .final-copy::before { animation: none !important; }
+  .film-grain { opacity: 0.02; }
+  .magnetic { translate: 0 0; }
+  .story-copy { opacity: 1; transform: none !important; filter: none !important; }
 }
 
 @media (orientation: landscape) and (max-height: 560px) {

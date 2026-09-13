@@ -24,12 +24,37 @@ export function Experience() {
     document.body.style.overflow = "hidden";
 
     const update = () => experienceStore.updateProgress();
-    const pointer = (event: PointerEvent) => experienceStore.updatePointer(event.clientX, event.clientY);
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
+    let pressStart = { x: 0, y: 0, time: 0 };
+    let currentPoint = { x: 0, y: 0 };
+    let longPressTimer = 0;
+    const pointer = (event: PointerEvent) => {
+      currentPoint = { x: event.clientX, y: event.clientY };
+      experienceStore.updatePointer(event.clientX, event.clientY, event.pointerType === "touch" || coarse);
+    };
+    const pointerDown = (event: PointerEvent) => {
+      pressStart = { x: event.clientX, y: event.clientY, time: performance.now() };
+      currentPoint = { x: event.clientX, y: event.clientY };
+      experienceStore.beginPress(event.clientX, event.clientY, event.pointerType === "touch" || coarse);
+      window.clearTimeout(longPressTimer);
+      longPressTimer = window.setTimeout(() => {
+        const movement = Math.hypot(currentPoint.x - pressStart.x, currentPoint.y - pressStart.y);
+        if (experienceStore.pointer.pressed && movement < 18) experienceStore.bloom();
+      }, 620);
+    };
+    const pointerUp = (event: PointerEvent) => {
+      window.clearTimeout(longPressTimer);
+      const movement = Math.hypot(event.clientX - pressStart.x, event.clientY - pressStart.y);
+      const duration = performance.now() - pressStart.time;
+      experienceStore.endPress(movement < 14 && duration < 520);
+    };
     const visibility = () => director.handleVisibility(document.hidden);
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update, { passive: true });
     window.addEventListener("pointermove", pointer, { passive: true });
-    window.addEventListener("pointerdown", pointer, { passive: true });
+    window.addEventListener("pointerdown", pointerDown, { passive: true });
+    window.addEventListener("pointerup", pointerUp, { passive: true });
+    window.addEventListener("pointercancel", pointerUp, { passive: true });
     document.addEventListener("visibilitychange", visibility);
     update();
 
@@ -38,8 +63,11 @@ export function Experience() {
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
       window.removeEventListener("pointermove", pointer);
-      window.removeEventListener("pointerdown", pointer);
+      window.removeEventListener("pointerdown", pointerDown);
+      window.removeEventListener("pointerup", pointerUp);
+      window.removeEventListener("pointercancel", pointerUp);
       document.removeEventListener("visibilitychange", visibility);
+      window.clearTimeout(longPressTimer);
       director.destroy();
     };
   }, []);
@@ -65,6 +93,7 @@ export function Experience() {
       <div className="atmospheric-vignette" aria-hidden="true" />
       <div className="film-grain" aria-hidden="true" />
       <div className="final-heart-reflection" aria-hidden="true" />
+      <div className="letter-veil" aria-hidden="true" />
       <MoonCursor />
       <StartGate started={started} onStart={begin} />
       {started && audioAvailable && <AudioControl playing={playing} onToggle={toggleAudio} />}
@@ -87,6 +116,7 @@ export function Experience() {
 
         <section className="story-section years-beat">
           <div className="story-copy align-center-left narrow-copy">
+            <span className="year-orbits" aria-hidden="true"><i /><i /><i /><i /></span>
             <p className="display-line large">Around four years ago,<br />I knew.</p>
             <p className="support-line">Time has never made me less certain.<br />Only more sure of choosing you.</p>
           </div>
@@ -95,7 +125,7 @@ export function Experience() {
         <section className="story-section everything-beat">
           <div className="story-copy align-center-right medium-copy">
             <p className="quiet-line">If you ask what I love about you,<br />I never know where to begin.</p>
-            <p className="display-line everything-word">Everything.</p>
+            <p className="display-line everything-word"><span>Everything.</span></p>
           </div>
         </section>
 
@@ -104,6 +134,7 @@ export function Experience() {
             <p className="display-line">With you, even the quiet parts of life feel full.</p>
             <p className="support-line">You make tenderness feel like home.</p>
           </div>
+          <span className="hidden-hayati" aria-hidden="true">hayati</span>
         </section>
 
         <section className="story-section playful-beat">
@@ -112,6 +143,7 @@ export function Experience() {
             <p className="display-line playful-line">and still a little silly.</p>
           </div>
           <div className="touch-orbit" aria-hidden="true"><i /><i /></div>
+          <p className="gesture-whisper" aria-hidden="true">tap the light · hold to let something bloom</p>
         </section>
 
         <section className="story-section future-beat">
@@ -125,17 +157,18 @@ export function Experience() {
         </section>
 
         <section className="story-section future-details-beat">
-          <div className="story-copy future-list align-center-left wide-copy">
-            <p>Marriage, chosen with care.</p>
-            <p>New places, side by side.</p>
-            <p>A home with peace inside it.</p>
-            <p>A family, and dreams we protect for each other.</p>
-            <p>Years passing—and us still growing beside one another.</p>
+          <div className="future-list wide-copy">
+            <div className="future-moment"><p><small>promise</small>Marriage, chosen with care.</p></div>
+            <div className="future-moment"><p><small>horizon</small>New places, side by side.</p></div>
+            <div className="future-moment"><p><small>shelter</small>A home with peace inside it.</p></div>
+            <div className="future-moment"><p><small>light</small>A family, and dreams we protect for each other.</p></div>
+            <div className="future-moment"><p><small>time</small>Years passing—and us still growing beside one another.</p></div>
           </div>
         </section>
 
         <section className="story-section letter-beat">
           <div className="story-copy letter-copy align-center-left medium-copy">
+            <span className="letter-rule" aria-hidden="true" />
             <p>Sun’dus,</p>
             <p>I am grateful you are in my life.</p>
             <p>I want you to feel loved in the loud moments and the ordinary ones. Supported in what you dream of. Safe in what we build together.</p>
@@ -144,6 +177,7 @@ export function Experience() {
 
         <section className="story-section letter-beat letter-second">
           <div className="story-copy letter-copy align-center-right medium-copy">
+            <span className="letter-rule" aria-hidden="true" />
             <p>I choose you now.</p>
             <p>And I want to keep choosing you through marriage, through a home, through every journey, and all the quiet years still waiting for us.</p>
           </div>

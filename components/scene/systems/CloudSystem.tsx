@@ -5,6 +5,7 @@ import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { experienceStore } from "@/lib/experience-store";
 import { bell, smooth } from "@/lib/math";
+import { STORY } from "@/lib/narrative";
 
 const vertexShader = `
   varying vec2 vUv;
@@ -58,11 +59,14 @@ function CloudLayer({ z, y, scale, speed }: { z: number; y: number; scale: numbe
     if (!mesh.current || !material.current) return;
     const p = experienceStore.progress;
     material.current.uniforms.uTime.value = state.clock.elapsedTime * speed;
-    const transitionCloud = bell(p, 0.31, 0.42, 0.55, 0.65) * 0.32;
-    const finalCloud = smooth(p, 0.82, 0.93) * 0.14;
-    material.current.uniforms.uOpacity.value = 0.075 + transitionCloud + finalCloud;
+    const descentCloud = bell(p, STORY.years.focus, STORY.everything.focus, STORY.garden.focus, STORY.playful.focus) * 0.48;
+    const letterVeil = bell(p, STORY.future.out, STORY.letter.focus, STORY.letter.out, STORY.return.focus) * 0.2;
+    const finalCloud = smooth(p, STORY.return.in, STORY.final.focus) * 0.12;
+    const swipeLift = Math.min(0.12, Math.abs(experienceStore.scrollVelocity) * 7);
+    material.current.uniforms.uOpacity.value = 0.065 + descentCloud + letterVeil + finalCloud + swipeLift;
     material.current.uniforms.uColor.value.set(p > 0.58 ? "#786574" : "#5f596c");
-    mesh.current.position.x = Math.sin(state.clock.elapsedTime * 0.025 + z) * 0.35;
+    mesh.current.position.x = Math.sin(state.clock.elapsedTime * 0.025 + z) * 0.35 + experienceStore.pointer.x * 0.035;
+    mesh.current.position.y = y + experienceStore.scrollVelocity * 5 * speed;
   });
 
   return (

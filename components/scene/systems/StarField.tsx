@@ -5,6 +5,7 @@ import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { experienceStore } from "@/lib/experience-store";
 import { smooth } from "@/lib/math";
+import { STORY } from "@/lib/narrative";
 
 function seeded(seed: number) {
   const x = Math.sin(seed * 9182.13) * 43758.5453;
@@ -30,7 +31,8 @@ export function StarField() {
     const p = experienceStore.progress;
     points.current.rotation.y += delta * 0.0025;
     points.current.position.x = Math.sin(state.clock.elapsedTime * 0.025) * 0.08;
-    material.current.opacity = 0.34 + smooth(p, 0.34, 0.55) * 0.2 - smooth(p, 0.78, 0.91) * 0.14;
+    const everythingAwakens = smooth(p, STORY.everything.in, STORY.everything.focus);
+    material.current.opacity = 0.32 + everythingAwakens * 0.28 - smooth(p, STORY.letter.focus, STORY.final.in) * 0.16 + experienceStore.stillness * 0.06;
     material.current.color.set(p > 0.45 && p < 0.82 ? "#ddd0d5" : "#c8cad8");
   });
 

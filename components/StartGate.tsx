@@ -15,7 +15,8 @@ export function StartGate({ started, onStart }: { started: boolean; onStart: () 
           <div className="small-moon" aria-hidden="true" />
           <motion.button
             type="button"
-            className="begin-cue"
+            className="begin-cue magnetic"
+            data-magnetic
             onClick={onStart}
             whileTap={{ scale: 0.97 }}
             aria-label="Begin Hayati's experience"
