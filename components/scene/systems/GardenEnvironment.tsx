@@ -65,7 +65,7 @@ export function GardenEnvironment() {
         for (let petal = 0; petal < 5; petal += 1) {
           const index = i * 5 + petal;
           const angle = (petal / 5) * Math.PI * 2 + seeded(i) * 0.5;
-          const bloomSize = 0.075 + seeded(i + 160) * 0.065;
+          const bloomSize = 0.06 + seeded(i + 160) * 0.048;
           position.set(x + Math.cos(angle) * bloomSize * 0.55, -2.42 + height + Math.sin(angle) * bloomSize * 0.38, z);
           quaternion.setFromEuler(new THREE.Euler(0.2, 0, angle - Math.PI / 2));
           scale.set(bloomSize * 0.72, bloomSize * 1.25, 0.025);
@@ -120,7 +120,7 @@ export function GardenEnvironment() {
     <group ref={group}>
       <instancedMesh ref={stems} args={[undefined, undefined, count]}><cylinderGeometry args={[0.016, 0.027, 1, 6]} /><meshStandardMaterial ref={stemMaterial} color="#17131a" transparent opacity={0} roughness={1} /></instancedMesh>
       <instancedMesh ref={leaves} args={[undefined, undefined, count]}><sphereGeometry args={[1, 8, 5]} /><meshStandardMaterial ref={leafMaterial} color="#211824" transparent opacity={0} roughness={1} /></instancedMesh>
-      <instancedMesh ref={petals} args={[undefined, undefined, petalCount]}><sphereGeometry args={[1, 10, 6]} /><meshStandardMaterial ref={petalMaterial} color="#6f455f" emissive="#4a233f" emissiveIntensity={0.25} transparent opacity={0} roughness={0.82} /></instancedMesh>
+      <instancedMesh ref={petals} args={[undefined, undefined, petalCount]}><sphereGeometry args={[1, 10, 6]} /><meshStandardMaterial ref={petalMaterial} color="#503748" emissive="#321d2d" emissiveIntensity={0.18} transparent opacity={0} roughness={0.86} /></instancedMesh>
       <mesh position={[0, -2.52, -1.5]} rotation={[-Math.PI / 2, 0, 0]} scale={[10, 9, 1]}><planeGeometry args={[1, 1]} /><meshBasicMaterial ref={groundMaterial} color="#08070a" transparent opacity={0} /></mesh>
       <mesh position={[0.7, -2.48, 0.15]} rotation={[-Math.PI / 2, 0, -0.08]} scale={[5.2, 2.25, 1]}>
         <planeGeometry args={[1, 1]} />

@@ -48,3 +48,16 @@ This document measures the current local build against the master brief and the 
 5. Run anti-slop review, accessibility/performance review, and complete viewport QA.
 
 No remote push or deployment is authorized during this revision.
+
+## Resolution
+
+The revision work closed the missing implementation items above:
+
+- All render systems now use `lib/narrative.ts` as the shared timing source.
+- The garden contains layered instanced stems/leaves/petals, dust, reflected moonlight, environmental lettering, and the long-press bloom.
+- The future is paced as individual promise, horizon, shelter, family-light, supported-dream, and time motifs; each visual moment enters and exits with its matching copy.
+- Touch input drives camera depth, tap particles, scroll-velocity atmosphere, and a non-blocking hold gesture. Desktop input adds magnetic controls, a three-point cursor wake, and scene parallax.
+- Stillness increases atmospheric dust and brings the paired lights together. The final state reduces lunar motion and holds indefinitely.
+- Reduced-motion visitors receive stable copy, no Lenis interpolation, and disabled decorative CSS loops.
+
+Remaining external dependency: the licensed music file is intentionally absent and must be supplied by the owner before a listening/pacing pass can be performed.

@@ -47,6 +47,6 @@ npm run start
 
 There is no authentication because the final URL is intended to be shared privately. There is also no analytics, tracking, personal photography, generated portraiture, or invented relationship history.
 
-## Deployment
+## Release status
 
-The project is Vercel-ready. Import the canonical GitHub repository or run `vercel --prod` from this directory once the Vercel account is authenticated.
+The project is production-build ready, but this revision is intentionally local-only. Do not push or deploy until Abdulrahim has reviewed and explicitly approved the finished experience.

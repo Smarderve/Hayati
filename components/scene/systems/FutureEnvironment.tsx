@@ -43,7 +43,7 @@ export function FutureEnvironment() {
 
   useFrame((state) => {
     const p = experienceStore.progress;
-    const world = bell(p, STORY.future.in - 0.035, STORY.future.in, STORY.letter.in + 0.07, STORY.letter.out);
+    const world = bell(p, STORY.future.in - 0.035, STORY.future.in, STORY.letter.in, STORY.letter.focus);
     if (group.current) {
       group.current.position.y = THREE.MathUtils.lerp(-0.6, 0, world);
       group.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.04) * 0.018 + experienceStore.pointer.x * 0.018;
