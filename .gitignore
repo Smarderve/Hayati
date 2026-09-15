@@ -4,6 +4,7 @@ out/
 .vercel/
 .freebuff/
 qa/
+tmp/
 *.log
 .DS_Store
 public/audio/*.mp3

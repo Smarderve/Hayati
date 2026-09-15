@@ -1,22 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Bodoni_Moda, Manrope } from "next/font/google";
+import { Cormorant_Garamond, Marcellus } from "next/font/google";
 import "./globals.css";
 
-const bodoni = Bodoni_Moda({
+const cormorant = Cormorant_Garamond({
   variable: "--font-display",
   subsets: ["latin"],
   display: "swap",
 });
 
-const manrope = Manrope({
+const marcellus = Marcellus({
   variable: "--font-body",
   subsets: ["latin"],
   display: "swap",
+  weight: "400",
 });
 
 export const metadata: Metadata = {
   title: "Hayati",
-  description: "A small world for Sun'dus, from Abdulrahim.",
+  description: "A Fairytale of the Two Kingdoms — a cinematic story by Abdulrahim.",
   robots: { index: false, follow: false },
 };
 
@@ -29,7 +30,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${bodoni.variable} ${manrope.variable}`}>
+    <html lang="en" className={`${cormorant.variable} ${marcellus.variable}`}>
       <body>{children}</body>
     </html>
   );
