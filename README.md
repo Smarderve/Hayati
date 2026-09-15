@@ -41,3 +41,4 @@ There is no analytics or tracking. The website follows the supplied novel and ap
 ## Release status
 
 The project is production-build ready, but this revision is intentionally local-only. Do not push or deploy until Abdulrahim has reviewed and explicitly approved the finished experience.
+"# Hayati" 
