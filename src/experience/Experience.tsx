@@ -1,68 +1,35 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { CinematicCanvas } from "@/src/experience/CinematicCanvas";
-import { cinematicStore, windowed } from "@/src/experience/cinematicStore";
+import { FilmWorld } from "@/src/experience/FilmWorld";
+import { filmStore, range } from "@/src/experience/filmStore";
 import { DownloadBookButton } from "@/src/ui/DownloadBookButton";
 
+function Wordmark({ finale = false }: { finale?: boolean }) {
+  return <section className={finale ? "title-card finale" : "title-card opening"} aria-label="Hayati, A Fairytale of the Two Kingdoms"><Image className="hayati-wordmark" src="/brand/hayati-wordmark.png" alt="Hayati" width={750} height={325} priority={!finale} /><p>A Fairytale of the Two Kingdoms</p><DownloadBookButton /></section>;
+}
+
 export function Experience() {
-  const title = useRef<HTMLDivElement>(null);
-  const progressLine = useRef<HTMLDivElement>(null);
-
+  const opening = useRef<HTMLDivElement>(null);
+  const finale = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    cinematicStore.reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const updateScroll = () => {
-      const range = document.documentElement.scrollHeight - window.innerHeight;
-      cinematicStore.target = range > 0 ? Math.min(1, Math.max(0, window.scrollY / range)) : 0;
-    };
-    const updatePointer = (event: PointerEvent) => {
-      cinematicStore.pointer.x = (event.clientX / window.innerWidth - 0.5) * 2;
-      cinematicStore.pointer.y = (event.clientY / window.innerHeight - 0.5) * -2;
-    };
+    filmStore.reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const update = () => { const max = document.documentElement.scrollHeight - window.innerHeight; filmStore.target = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0; };
+    const pointer = (event: PointerEvent) => { filmStore.pointer.x = event.clientX / window.innerWidth * 2 - 1; filmStore.pointer.y = -(event.clientY / window.innerHeight * 2 - 1); };
     let active = true;
-    const paintInterface = () => {
+    const paint = () => {
       if (!active) return;
-      const progress = cinematicStore.progress;
-      const reveal = windowed(progress, 0.025, 0.075) * (1 - windowed(progress, 0.2, 0.31));
-      if (title.current) {
-        title.current.style.opacity = String(reveal);
-        title.current.style.transform = `translate3d(0, ${progress * -54}px, 0)`;
-        title.current.style.pointerEvents = reveal > 0.5 ? "auto" : "none";
-      }
-      if (progressLine.current) progressLine.current.style.transform = `scaleX(${progress})`;
-      requestAnimationFrame(paintInterface);
+      const progress = filmStore.progress;
+      const intro = range(progress, .004, .018) * (1 - range(progress, .055, .085));
+      const ending = range(progress, .965, .992);
+      if (opening.current) { opening.current.style.opacity = String(intro); opening.current.style.pointerEvents = intro > .55 ? "auto" : "none"; }
+      if (finale.current) { finale.current.style.opacity = String(ending); finale.current.style.pointerEvents = ending > .55 ? "auto" : "none"; }
+      requestAnimationFrame(paint);
     };
-
-    updateScroll();
-    const frame = requestAnimationFrame(paintInterface);
-    window.addEventListener("scroll", updateScroll, { passive: true });
-    window.addEventListener("resize", updateScroll);
-    window.addEventListener("pointermove", updatePointer, { passive: true });
-    return () => {
-      active = false;
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", updateScroll);
-      window.removeEventListener("resize", updateScroll);
-      window.removeEventListener("pointermove", updatePointer);
-    };
+    update(); requestAnimationFrame(paint);
+    window.addEventListener("scroll", update, { passive: true }); window.addEventListener("resize", update); window.addEventListener("pointermove", pointer, { passive: true });
+    return () => { active = false; window.removeEventListener("scroll", update); window.removeEventListener("resize", update); window.removeEventListener("pointermove", pointer); };
   }, []);
-
-  return (
-    <main className="experience">
-      <div className="poster-fallback" aria-hidden="true" />
-      <CinematicCanvas />
-      <div className="film-grain" aria-hidden="true" />
-      <div className="cinema-vignette" aria-hidden="true" />
-      <section ref={title} className="opening-title" aria-label="Hayati, A Fairytale of the Two Kingdoms">
-        <span className="opening-kicker">A cinematic fairytale</span>
-        <h1>Hayati</h1>
-        <p>A Fairytale of the Two Kingdoms</p>
-        <DownloadBookButton />
-        <span className="scroll-cue" aria-hidden="true"><i />Scroll to travel</span>
-      </section>
-      <div className="journey-progress" aria-hidden="true"><div ref={progressLine} /></div>
-      <div className="scroll-track" aria-hidden="true" />
-    </main>
-  );
+  return <main className="experience"><FilmWorld /><div className="film-grain" aria-hidden="true" /><div className="cinema-vignette" aria-hidden="true" /><div ref={opening}><Wordmark /></div><div ref={finale}><Wordmark finale /></div><div className="scroll-track" aria-hidden="true" /></main>;
 }
