@@ -1,6 +1,5 @@
 "use client";
 
-import { PerspectiveCamera, RenderTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
@@ -34,20 +33,14 @@ function PortalAura({ color }: { color: string }) {
 }
 
 function SpatialPortal({ current, destination }: { current: SceneConfig; destination: SceneConfig }) {
-  const { portal, frame } = useMemo(archShapes, []);
+  const { portal, frame } = useMemo(() => archShapes(), []);
   const frameGeometry = useMemo(() => new THREE.ExtrudeGeometry(frame, { depth: .45, bevelEnabled: true, bevelSegments: 3, bevelSize: .07, bevelThickness: .07 }), [frame]);
   return (
     <group position={[0, .25, -15]}>
       <mesh geometry={frameGeometry} position={[0, 0, .12]}><meshStandardMaterial color={current.stone} roughness={.72} metalness={.12} emissive={current.light} emissiveIntensity={.08} /></mesh>
       <mesh>
         <shapeGeometry args={[portal, 40]} />
-        <meshBasicMaterial toneMapped={false} side={THREE.FrontSide}>
-          <RenderTexture attach="map" frames={Infinity} renderPriority={1}>
-            <color attach="background" args={[destination.sky]} />
-            <PerspectiveCamera makeDefault manual aspect={.62} position={[0, .8, 12]} fov={48} />
-            <EnvironmentBody config={destination} preview />
-          </RenderTexture>
-        </meshBasicMaterial>
+        <meshBasicMaterial color={destination.horizon} transparent opacity={.72} toneMapped={false} side={THREE.FrontSide} blending={THREE.AdditiveBlending} depthWrite={false} />
       </mesh>
       <PortalAura color={destination.light} />
       <pointLight position={[0, .4, 1]} color={destination.light} intensity={7} distance={8} />
