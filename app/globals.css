@@ -45,7 +45,12 @@ body {
     url("/art/asterra-faraway-master.webp") center 54% / cover no-repeat;
 }
 
-.cinematic-canvas { z-index: 1; }
+.cinematic-canvas {
+  z-index: 1;
+  opacity: .48;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
 
 .film-grain,
 .cinema-vignette {
@@ -138,6 +143,7 @@ body {
 
 @media (max-width: 700px) {
   .poster-fallback { background-position: center 52%; }
+  .cinematic-canvas { opacity: .4; }
   .title-card { top: 43%; }
   .hayati-wordmark { width: 92vw; }
   .title-card p {
