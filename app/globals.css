@@ -1,3 +1,159 @@
 @import "tailwindcss";
-.experience::before{content:"";position:fixed;inset:0;z-index:0;width:100%;height:100dvh;background:linear-gradient(180deg,rgba(2,8,18,.08),rgba(2,8,18,.26)),url("/art/asterra-approved.jpg") center 58%/cover no-repeat}
-:root{--night:#040914;--ivory:#f4efe4;--gold:#dfbd78}*{box-sizing:border-box}html{background:var(--night);scrollbar-width:thin;scrollbar-color:#7d6742 #07101e}body{margin:0;overflow-x:hidden;background:var(--night);color:var(--ivory);font-family:var(--font-body),serif}.experience{position:relative;min-height:100dvh;background:var(--night)}.experience-fallback,.cinematic-canvas,.film-grain,.cinema-vignette{position:fixed!important;inset:0;width:100%;height:100dvh}.experience-fallback{z-index:2;pointer-events:none;opacity:0;background-image:linear-gradient(180deg,rgba(2,8,18,.08),rgba(2,8,18,.26)),url("/art/asterra-approved.jpg");background-position:center 58%;background-size:cover;transition:opacity .28s ease-out}.cinematic-canvas{z-index:1}.film-grain,.cinema-vignette{z-index:3;pointer-events:none}.film-grain{opacity:.045;mix-blend-mode:soft-light;background-image:repeating-radial-gradient(circle at 19% 29%,transparent 0 1px,rgba(255,255,255,.5) 1.4px 1.8px,transparent 2px 4px);background-size:7px 6px}.cinema-vignette{background:linear-gradient(180deg,rgba(1,4,10,.24),transparent 20%,transparent 76%,rgba(1,4,10,.4)),radial-gradient(ellipse at center,transparent 45%,rgba(1,4,10,.16) 75%,rgba(1,4,10,.5) 120%)}.title-card{position:fixed;z-index:5;top:46%;left:50%;display:flex;width:min(88vw,45rem);flex-direction:column;align-items:center;translate:-50% -50%;text-align:center;pointer-events:none;text-shadow:0 .2rem 2rem rgba(0,0,0,.85)}.title-card.opening,.title-card.finale{opacity:inherit}.hayati-wordmark{display:block;width:min(72vw,42rem);height:auto;object-fit:contain;filter:drop-shadow(0 .35rem 1.4rem rgba(0,0,0,.65))}.title-card p{margin:.15rem 0 1.35rem;font-size:clamp(.7rem,1.35vw,1rem);letter-spacing:.16em;text-transform:uppercase}.download-book{pointer-events:auto;display:inline-flex;align-items:center;gap:.65rem;border:1px solid rgba(235,199,129,.86);border-radius:999px;padding:.78rem 1.45rem;background:rgba(5,12,24,.68);color:var(--ivory);font-size:.68rem;letter-spacing:.15em;text-decoration:none;text-transform:uppercase;box-shadow:0 0 2.5rem rgba(223,181,98,.16);backdrop-filter:blur(7px);transition:transform .3s ease,background .3s ease}.download-book:hover,.download-book:focus-visible{transform:translateY(-2px);background:rgba(82,56,26,.75)}.download-book:focus-visible{outline:1px solid white;outline-offset:5px}.download-book span{color:var(--gold)}.scroll-track{height:4000dvh;pointer-events:none}@media(max-width:700px){.experience-fallback{background-position:center 54%}.title-card{top:43%}.hayati-wordmark{width:92vw}.title-card p{max-width:19rem;font-size:.6rem;line-height:1.6}.download-book{padding:.72rem 1.2rem;font-size:.6rem}.cinema-vignette{background:radial-gradient(ellipse at 50% 45%,transparent 35%,rgba(1,4,10,.22) 76%,rgba(1,4,10,.48) 125%)}}@media(prefers-reduced-motion:reduce){.experience-fallback,.download-book{transition:none}}
+
+:root {
+  --night: #040914;
+  --ivory: #f4efe4;
+  --gold: #dfbd78;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  background: var(--night);
+  scrollbar-color: #7d6742 #07101e;
+  scrollbar-width: thin;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--night);
+  color: var(--ivory);
+  font-family: var(--font-body), serif;
+}
+
+.experience {
+  position: relative;
+  min-height: 100dvh;
+  background: var(--night);
+}
+
+.poster-fallback,
+.cinematic-canvas,
+.film-grain,
+.cinema-vignette {
+  position: fixed !important;
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
+}
+
+.poster-fallback {
+  z-index: 0;
+  background:
+    linear-gradient(180deg, rgba(2, 8, 18, .06), rgba(2, 8, 18, .22)),
+    url("/art/asterra-faraway-master.webp") center 54% / cover no-repeat;
+}
+
+.cinematic-canvas { z-index: 1; }
+
+.film-grain,
+.cinema-vignette {
+  z-index: 3;
+  pointer-events: none;
+}
+
+.film-grain {
+  opacity: .045;
+  mix-blend-mode: soft-light;
+  background-image: repeating-radial-gradient(circle at 19% 29%, transparent 0 1px, rgba(255, 255, 255, .5) 1.4px 1.8px, transparent 2px 4px);
+  background-size: 7px 6px;
+}
+
+.cinema-vignette {
+  background:
+    linear-gradient(180deg, rgba(1, 4, 10, .24), transparent 20%, transparent 76%, rgba(1, 4, 10, .4)),
+    radial-gradient(ellipse at center, transparent 45%, rgba(1, 4, 10, .16) 75%, rgba(1, 4, 10, .5) 120%);
+}
+
+.title-card {
+  position: fixed;
+  z-index: 5;
+  top: 46%;
+  left: 50%;
+  display: flex;
+  width: min(88vw, 45rem);
+  flex-direction: column;
+  align-items: center;
+  translate: -50% -50%;
+  text-align: center;
+  pointer-events: none;
+  text-shadow: 0 .2rem 2rem rgba(0, 0, 0, .85);
+}
+
+.title-card.opening,
+.title-card.finale { opacity: inherit; }
+
+.hayati-wordmark {
+  display: block;
+  width: min(72vw, 42rem);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 .35rem 1.4rem rgba(0, 0, 0, .65));
+}
+
+.title-card p {
+  margin: .15rem 0 1.35rem;
+  font-size: clamp(.7rem, 1.35vw, 1rem);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.download-book {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: .65rem;
+  border: 1px solid rgba(235, 199, 129, .86);
+  border-radius: 999px;
+  padding: .78rem 1.45rem;
+  background: rgba(5, 12, 24, .68);
+  color: var(--ivory);
+  box-shadow: 0 0 2.5rem rgba(223, 181, 98, .16);
+  font-size: .68rem;
+  letter-spacing: .15em;
+  text-decoration: none;
+  text-transform: uppercase;
+  backdrop-filter: blur(7px);
+  transition: transform .3s ease, background .3s ease;
+}
+
+.download-book:hover,
+.download-book:focus-visible {
+  transform: translateY(-2px);
+  background: rgba(82, 56, 26, .75);
+}
+
+.download-book:focus-visible {
+  outline: 1px solid white;
+  outline-offset: 5px;
+}
+
+.download-book span { color: var(--gold); }
+
+.scroll-track {
+  height: 2000dvh;
+  pointer-events: none;
+}
+
+@media (max-width: 700px) {
+  .poster-fallback { background-position: center 52%; }
+  .title-card { top: 43%; }
+  .hayati-wordmark { width: 92vw; }
+  .title-card p {
+    max-width: 19rem;
+    font-size: .6rem;
+    line-height: 1.6;
+  }
+  .download-book {
+    padding: .72rem 1.2rem;
+    font-size: .6rem;
+  }
+  .cinema-vignette {
+    background: radial-gradient(ellipse at 50% 45%, transparent 35%, rgba(1, 4, 10, .22) 76%, rgba(1, 4, 10, .48) 125%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .download-book { transition: none; }
+}

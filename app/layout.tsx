@@ -6,7 +6,7 @@ const title = "Hayati — A Fairytale of the Two Kingdoms";
 const description = "A cinematic fairytale of two distant kingdoms, a magical realm, and a love that waits for the day distance finally becomes touch. Read the story and download the ebook.";
 const productionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : "https://hayati-40o2q0k1k-smarderve-s-projects.vercel.app";
+  : "https://hayati-the-fairytale.vercel.app";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-display",

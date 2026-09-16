@@ -39,11 +39,20 @@ function ActiveScenes() {
   return <><CameraDirector onScene={setActive} />{indices.map((index) => <SceneEnvironment key={index} index={index} config={scenes[index]} next={index === active ? scenes[index + 1] : undefined} />)}</>;
 }
 
+function LoadingEnvironment() {
+  return (
+    <mesh position={[0, 0, -8]} scale={[18, 10, 1]}>
+      <planeGeometry />
+      <meshBasicMaterial color="#0b1830" transparent opacity={.1} depthWrite={false} />
+    </mesh>
+  );
+}
+
 export function FilmWorld() {
   return (
     <Canvas className="cinematic-canvas" dpr={[1, 1.5]} camera={{ fov: 48, near: .08, far: 90, position: [0, .7, scenePosition(0) + 12] }} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }} onCreated={({ gl }) => gl.setClearColor("#07142b", 0)}>
       <fogExp2 attach="fog" args={[scenes[0].sky, .012]} />
-      <Suspense fallback={null}><ActiveScenes /></Suspense>
+      <Suspense fallback={<LoadingEnvironment />}><ActiveScenes /></Suspense>
       <AdaptiveDpr pixelated />
     </Canvas>
   );
